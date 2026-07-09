@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Ubuntu Braai & Lounge is a premium South African braai restaurant and lounge serving flame-grilled cuisine, elegant hospitality, and memorable evenings."
+    />
+    <meta name="author" content="Kedi Shuping" />
+    <title>Ubuntu Braai &amp; Lounge | Where Great Food Brings People Together</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --gold: #d4af37;
+        --gold-soft: #f1d985;
+        --ember: #b84a28;
+        --coal: #070605;
+        --charcoal: #11100e;
+        --ink: #171412;
+        --cream: #f8f0df;
+        --muted: #c7bda7;
+        --line: rgba(212, 175, 55, 0.22);
+        --glass: rgba(8, 7, 6, 0.62);
+        --shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+        --serif: "Cormorant Garamond", Georgia, serif;
+        --sans: "Inter", Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        color: var(--cream);
+        background:
+          radial-gradient(circle at 18% 12%, rgba(184, 74, 40, 0.16), transparent 34rem),
+          radial-gradient(circle at 82% 8%, rgba(212, 175, 55, 0.1), transparent 28rem),
+          linear-gradient(180deg, #050403 0%, #120f0c 46%, #080706 100%);
+        overflow-x: hidden;
+      }
+
+      body.nav-open {
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      .skip-link {
+        position: fixed;
+        left: 1rem;
+        top: -5rem;
+        z-index: 1000;
+        padding: 0.8rem 1rem;
+        color: var(--coal);
+        background: var(--gold);
+        border-radius: 999px;
+        transition: top 180ms ease;
+      }
+
+      .skip-link:focus {
+        top: 1rem;
+      }
+
+      .site-header {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 100;
+        transition: background 240ms ease, border-color 240ms ease, transform 240ms ease;
+        border-bottom: 1px solid transparent;
+      }
+
+      .site-header.is-scrolled {
+        background: rgba(5, 4, 3, 0.82);
+        border-color: rgba(212, 175, 55, 0.18);
+        backdrop-filter: blur(18px);
+      }
+
+      .navbar {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        width: min(1180px, calc(100% - 40px));
+        min-height: 92px;
+        margin: 0 auto;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: clamp(1rem, 2vw, 2rem);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .nav-links:first-child {
+        justify-content: flex-start;
+      }
+
+      .nav-links:last-child {
+        justify-content: flex-end;
+      }
+
+      .nav-links a {
+        position: relative;
+        font-size: 0.76rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(248, 240, 223, 0.84);
+      }
+
+      .nav-links a::after {
+        position: absolute;
+        left: 0;
+        bottom: -0.5rem;
+        width: 100%;
+        height: 1px;
+        content: "";
+        background: var(--gold);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 220ms ease;
+      }
+
+      .nav-links a:hover::after,
+      .nav-links a:focus-visible::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      .logo-frame {
+        display: grid;
+        place-items: center;
+        width: clamp(150px, 15vw, 190px);
+        height: clamp(150px, 15vw, 190px);
+        padding: clamp(0.6rem, 1.2vw, 1rem);
+        border: 1px solid rgba(212, 175, 55, 0.42);
+        border-radius: 50%;
+        background: rgba(7, 6, 5, 0.52);
+        box-shadow: 0 0 54px rgba(212, 175, 55, 0.18), 0 34px 90px rgba(0, 0, 0, 0.42);
+        overflow: hidden;
+      }
+
+      .logo-frame img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: contain;
+        object-position: center;
+        padding: 4px;
+      }
+
+      /* Smaller tagline under logo */
+      .hero-brand__tagline {
+        margin: -0.5rem 0 0;
+        font-family: var(--sans);
+        font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+        font-weight: 300;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(248, 240, 223, 0.6);
+      }
+
+      .nav-spacer {
+        width: 1px;
+        height: 1px;
+      }
+
+      .menu-toggle {
+        display: none;
+        justify-self: end;
+        width: 46px;
+        height: 46px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        color: var(--cream);
+        background: rgba(7, 6, 5, 0.54);
+        cursor: pointer;
+      }
+
+      .menu-toggle span,
+      .menu-toggle::before,
+      .menu-toggle::after {
+        display: block;
+        width: 18px;
+        height: 1px;
+        margin: 5px auto;
+        content: "";
+        background: currentColor;
+        transition: transform 220ms ease, opacity 220ms ease;
+      }
+
+      body.nav-open .menu-toggle span {
+        opacity: 0;
+      }
+
+      body.nav-open .menu-toggle::before {
+        transform: translateY(6px) rotate(45deg);
+      }
+
+      body.nav-open .menu-toggle::after {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+
+      .hero {
+        position: relative;
+        display: grid;
+        min-height: 100vh;
+        place-items: center;
+        isolation: isolate;
+        padding: clamp(8rem, 13vh, 10.5rem) 1.25rem clamp(4.5rem, 8vh, 6.5rem);
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        position: absolute;
+        inset: 0;
+        z-index: -3;
+        content: "";
+        background:
+          linear-gradient(180deg, rgba(5, 4, 3, 0.18), rgba(5, 4, 3, 0.72) 64%, #070605 100%),
+          url("https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=2200&q=80") center/cover;
+        transform: scale(1.03);
+      }
+
+      .hero::after {
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        content: "";
+        background:
+          radial-gradient(circle at center, transparent 0 34%, rgba(0, 0, 0, 0.7) 100%),
+          linear-gradient(90deg, rgba(0, 0, 0, 0.62), transparent 30% 70%, rgba(0, 0, 0, 0.62));
+      }
+
+      .hero__inner {
+        width: min(980px, 100%);
+        display: grid;
+        justify-items: center;
+        animation: riseIn 900ms ease both;
+      }
+
+      .hero-brand {
+        display: grid;
+        justify-items: center;
+        gap: clamp(1rem, 2vw, 1.4rem);
+        margin-bottom: clamp(2rem, 5vh, 3.5rem);
+      }
+
+      .hero-brand__name {
+        margin: 0;
+        font-family: var(--serif);
+        font-size: clamp(2.5rem, 5.5vw, 5rem);
+        font-weight: 700;
+        line-height: 0.92;
+        color: var(--cream);
+        text-wrap: balance;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.85rem;
+        margin: 0 0 1.1rem;
+        font-size: 0.73rem;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--gold-soft);
+      }
+
+      .eyebrow::before,
+      .eyebrow::after {
+        width: 44px;
+        height: 1px;
+        content: "";
+        background: var(--gold);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 700;
+      }
+
+      .hero h1 {
+        max-width: 900px;
+        margin: 0 auto clamp(1.25rem, 3vh, 2rem);
+        font-size: clamp(3rem, 7vw, 6.5rem);
+        line-height: 0.88;
+        text-wrap: balance;
+      }
+
+      .hero__lead {
+        max-width: 710px;
+        margin: 0 auto clamp(2.3rem, 5vh, 3.8rem);
+        font-size: clamp(1rem, 2vw, 1.26rem);
+        font-weight: 300;
+        line-height: 1.8;
+        color: rgba(248, 240, 223, 0.86);
+      }
+
+      .hero__actions,
+      .cta-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.95rem;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        padding: 0.95rem 1.35rem;
+        border: 1px solid rgba(212, 175, 55, 0.46);
+        border-radius: 999px;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        transition: transform 220ms ease, background 220ms ease, border-color 220ms ease, color 220ms ease;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        transform: translateY(-2px);
+      }
+
+      .button--gold {
+        color: #140f08;
+        background: linear-gradient(135deg, var(--gold), #f1d985);
+        border-color: transparent;
+      }
+
+      .button--ghost {
+        color: var(--cream);
+        background: rgba(7, 6, 5, 0.36);
+        backdrop-filter: blur(12px);
+      }
+
+      .button--ghost:hover,
+      .button--ghost:focus-visible {
+        background: rgba(212, 175, 55, 0.12);
+      }
+
+      .hero__scroll {
+        position: absolute;
+        left: 50%;
+        bottom: 1.5rem;
+        display: grid;
+        gap: 0.55rem;
+        place-items: center;
+        color: rgba(248, 240, 223, 0.62);
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        transform: translateX(-50%);
+      }
+
+      .hero__scroll::after {
+        width: 1px;
+        height: 54px;
+        content: "";
+        background: linear-gradient(var(--gold), transparent);
+      }
+
+      section {
+        position: relative;
+        padding: clamp(4.5rem, 8vw, 8rem) 1.25rem;
+      }
+
+      .section-inner {
+        width: min(1180px, 100%);
+        margin: 0 auto;
+      }
+
+      .section-heading {
+        display: grid;
+        gap: 0.75rem;
+        max-width: 760px;
+        margin-bottom: clamp(2rem, 5vw, 4rem);
+      }
+
+      .section-heading.center {
+        margin-right: auto;
+        margin-left: auto;
+        text-align: center;
+      }
+
+      .section-heading.center .eyebrow {
+        justify-content: center;
+      }
+
+      .section-heading h2,
+      .reservation h2 {
+        margin-bottom: 0;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        line-height: 0.95;
+        text-wrap: balance;
+      }
+
+      .section-heading p:not(.eyebrow) {
+        margin-bottom: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .dishes {
+        background: linear-gradient(180deg, #070605 0%, #14100d 100%);
+      }
+
+      .dish-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.2rem;
+      }
+
+      .dish-card {
+        position: relative;
+        min-height: 520px;
+        overflow: hidden;
+        border: 1px solid rgba(212, 175, 55, 0.18);
+        border-radius: 8px;
+        background: #15110d;
+        box-shadow: var(--shadow);
+      }
+
+      .dish-card img {
+        width: 100%;
+        height: 100%;
+        min-height: 520px;
+        object-fit: cover;
+        filter: saturate(0.86) contrast(1.08);
+        transition: transform 700ms ease;
+      }
+
+      .dish-card:hover img {
+        transform: scale(1.06);
+      }
+
+      .dish-card__content {
+        position: absolute;
+        inset: auto 0 0;
+        padding: 2rem;
+        background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.88) 24%, rgba(0, 0, 0, 0.96));
+      }
+
+      .dish-card__price {
+        display: inline-flex;
+        margin-bottom: 0.8rem;
+        color: var(--gold-soft);
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+      }
+
+      .dish-card h3 {
+        margin-bottom: 0.65rem;
+        font-size: clamp(1.7rem, 3vw, 2.2rem);
+      }
+
+      .dish-card p {
+        margin-bottom: 0;
+        color: rgba(248, 240, 223, 0.76);
+        line-height: 1.7;
+      }
+
+      .about {
+        background:
+          linear-gradient(90deg, rgba(7, 6, 5, 0.98) 0 48%, rgba(7, 6, 5, 0.62)),
+          url("https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1800&q=80") center/cover;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.48fr);
+        gap: clamp(2rem, 6vw, 5rem);
+        align-items: center;
+      }
+
+      .about-copy p {
+        color: rgba(248, 240, 223, 0.78);
+        font-size: 1rem;
+        line-height: 1.9;
+      }
+
+      .about-note {
+        padding: clamp(1.5rem, 3vw, 2.4rem);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(8, 7, 6, 0.7);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+      }
+
+      .about-note strong {
+        display: block;
+        margin-bottom: 0.7rem;
+        font-family: var(--serif);
+        font-size: 2rem;
+        color: var(--gold-soft);
+      }
+
+      .about-note p {
+        margin-bottom: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .gallery {
+        background: #0b0908;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr 1fr;
+        grid-auto-rows: 220px;
+        gap: 1rem;
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(212, 175, 55, 0.18);
+        border-radius: 8px;
+        background: #15110d;
+      }
+
+      .gallery-item:first-child {
+        grid-row: span 2;
+      }
+
+      .gallery-item:nth-child(4) {
+        grid-column: span 2;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(0.88) contrast(1.05);
+        transition: transform 700ms ease, opacity 700ms ease;
+      }
+
+      .gallery-item:hover img {
+        opacity: 0.82;
+        transform: scale(1.05);
+      }
+
+      .reservation {
+        padding: 6rem 1.5rem;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        background:
+          linear-gradient(180deg, rgba(7, 6, 5, 0.78), rgba(7, 6, 5, 0.9)),
+          url("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2200&q=80")
+          center/cover fixed;
+      }
+
+      .reservation__content {
+        width: min(800px, 100%);
+      }
+
+      .reservation p {
+        max-width: 630px;
+        margin: 1rem auto 2rem;
+        color: rgba(248, 240, 223, 0.8);
+        line-height: 1.8;
+      }
+
+      .reservation-form {
+        display: grid;
+        gap: 1.2rem;
+        width: 100%;
+        max-width: 580px;
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      .form-row {
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      .form-row label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--gold-soft);
+      }
+
+      .form-row input,
+      .form-row select,
+      .form-row textarea {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 8px;
+        font-family: var(--sans);
+        font-size: 1rem;
+        color: var(--cream);
+        background: rgba(7, 6, 5, 0.7);
+        backdrop-filter: blur(4px);
+        transition: border-color 220ms ease;
+      }
+
+      /* Date input - shows calendar picker */
+      .form-row input[type="date"] {
+        min-height: 52px;
+        color-scheme: dark;
+        cursor: pointer;
+      }
+
+      .form-row input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(0.8) sepia(1) saturate(3) hue-rotate(5deg);
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      .form-row input[type="time"] {
+        min-height: 52px;
+        color-scheme: dark;
+        cursor: pointer;
+      }
+
+      .form-row input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(0.8) sepia(1) saturate(3) hue-rotate(5deg);
+        cursor: pointer;
+        padding: 4px;
+      }
+
+      .form-row input:focus,
+      .form-row select:focus,
+      .form-row textarea:focus {
+        outline: none;
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+      }
+
+      .form-row textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .form-row select option {
+        background: #1a1714;
+        color: var(--cream);
+      }
+
+      .form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+        margin-top: 0.5rem;
+      }
+
+      .form-success {
+        display: none;
+        padding: 1.2rem;
+        border: 1px solid var(--gold);
+        border-radius: 8px;
+        color: var(--gold-soft);
+        background: rgba(7, 6, 5, 0.6);
+        text-align: center;
+      }
+
+      .form-success.show {
+        display: block;
+      }
+
+      .site-footer {
+        padding: clamp(3rem, 6vw, 5rem) 1.25rem 2rem;
+        border-top: 1px solid var(--line);
+        background: #050403;
+      }
+
+      .footer-inner {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr 1fr;
+        gap: 2rem;
+        width: min(1180px, 100%);
+        margin: 0 auto;
+      }
+
+      .footer-credit {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--line);
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.8;
+      }
+
+      .footer-credit p {
+        margin: 0.3rem 0;
+      }
+
+      .footer-brand h2 {
+        margin-bottom: 0.8rem;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 0.95;
+      }
+
+      .footer-brand p,
+      .footer-list,
+      .footer-meta {
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .footer-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.4rem 1.5rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .footer-list a:hover,
+      .footer-list a:focus-visible,
+      .footer-meta a:hover,
+      .footer-meta a:focus-visible {
+        color: var(--gold-soft);
+      }
+
+      .footer-meta {
+        text-align: right;
+      }
+
+      .footer-meta p {
+        margin-bottom: 0.4rem;
+      }
+
+      .copyright {
+        width: min(1180px, 100%);
+        margin: 2.5rem auto 0;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(212, 175, 55, 0.14);
+        color: rgba(199, 189, 167, 0.72);
+        font-size: 0.82rem;
+        text-align: center;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(34px);
+        transition: opacity 700ms ease, transform 700ms ease;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes riseIn {
+        from {
+          opacity: 0;
+          transform: translateY(28px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 960px) {
+        .navbar {
+          grid-template-columns: 1fr auto 1fr;
+          min-height: 82px;
+        }
+
+        .navbar .nav-links {
+          position: fixed;
+          inset: 82px 0 auto;
+          display: grid;
+          justify-content: stretch;
+          gap: 0;
+          max-height: 0;
+          overflow: hidden;
+          background: rgba(5, 4, 3, 0.96);
+          border-bottom: 1px solid var(--line);
+          backdrop-filter: blur(18px);
+          transition: max-height 260ms ease;
+        }
+
+        .navbar .nav-links:first-child,
+        .navbar .nav-links:last-child {
+          grid-column: 1 / -1;
+        }
+
+        .navbar .nav-links:first-child {
+          top: 82px;
+        }
+
+        .navbar .nav-links:last-child {
+          top: calc(82px + 176px);
+          border-top: 0;
+        }
+
+        body.nav-open .navbar .nav-links {
+          max-height: 260px;
+        }
+
+        .nav-links li {
+          border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .nav-links a {
+          display: block;
+          padding: 1rem 1.5rem;
+          text-align: center;
+        }
+
+        .nav-links a::after {
+          display: none;
+        }
+
+        .nav-spacer {
+          grid-column: 2;
+        }
+
+        .menu-toggle {
+          display: block;
+          grid-column: 3;
+          grid-row: 1;
+        }
+
+        .dish-grid,
+        .about-grid,
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-meta {
+          text-align: left;
+        }
+
+        .gallery-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .navbar {
+          width: min(100% - 28px, 1180px);
+        }
+
+        .hero {
+          min-height: 100svh;
+          padding-top: 7.8rem;
+        }
+
+        .logo-frame {
+          width: clamp(140px, 40vw, 170px);
+          height: clamp(140px, 40vw, 170px);
+        }
+
+        .hero-brand {
+          gap: 0.8rem;
+          margin-bottom: 2rem;
+        }
+
+        .hero-brand__name {
+          font-size: clamp(2.2rem, 10vw, 3.8rem);
+        }
+
+        .hero-brand__tagline {
+          font-size: clamp(0.55rem, 1.8vw, 0.7rem);
+          letter-spacing: 0.2em;
+        }
+
+        .eyebrow {
+          gap: 0.6rem;
+          letter-spacing: 0.16em;
+        }
+
+        .eyebrow::before,
+        .eyebrow::after {
+          width: 24px;
+        }
+
+        .hero h1 {
+          font-size: clamp(3rem, 17vw, 5.2rem);
+        }
+
+        .button {
+          width: 100%;
+          max-width: 330px;
+        }
+
+        .dish-grid,
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .dish-card,
+        .dish-card img {
+          min-height: 430px;
+        }
+
+        .gallery-item,
+        .gallery-item:first-child,
+        .gallery-item:nth-child(4) {
+          grid-column: auto;
+          grid-row: auto;
+          min-height: 270px;
+        }
+
+        .footer-list {
+          grid-template-columns: 1fr;
+        }
+
+        .reservation-form {
+          max-width: 100%;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 1ms !important;
+          transition-duration: 1ms !important;
+        }
+
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header" data-header>
+      <nav class="navbar" aria-label="Primary navigation">
+        <ul class="nav-links" id="nav-left">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#dishes">Menu</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+
+        <span class="nav-spacer" aria-hidden="true"></span>
+
+        <button class="menu-toggle" type="button" aria-controls="nav-left nav-right" aria-expanded="false" aria-label="Toggle navigation">
+          <span></span>
+        </button>
+
+        <ul class="nav-links" id="nav-right">
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#reserve">Reserve</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <!-- ===== HERO SECTION ===== -->
+      <section class="hero" id="home" aria-labelledby="hero-title">
+        <div class="hero__inner">
+          <div class="hero-brand" aria-label="Ubuntu Braai & Lounge">
+            <span class="logo-frame">
+              <img src="https://i.imgur.com/1biuUsy.png" alt="Ubuntu Braai & Lounge logo" width="240" height="240" />
+            </span>
+            <p class="hero-brand__name">Ubuntu Braai &amp; Lounge</p>
+            <p class="hero-brand__tagline">Where Great Food Brings People Together</p>
+          </div>
+          <p class="eyebrow">South African Braai, Elevated</p>
+          <h1 id="hero-title">Where Great Food Brings People Together</h1>
+          <p class="hero__lead">
+            At Ubuntu Braai &amp; Lounge, we honour the tradition of South African braai by elevating it with exceptional flavours, quality ingredients, and genuine hospitality. Every meal is an opportunity to bring people together, share stories, and create memories that last long after the fire has gone out.
+          </p>
+          <div class="hero__actions" aria-label="Primary actions">
+            <a class="button button--gold" href="#dishes">View Our Menu</a>
+            <a class="button button--ghost" href="#reserve">Reserve a Table</a>
+          </div>
+        </div>
+        <a class="hero__scroll" href="#dishes">Scroll</a>
+      </section>
+
+      <!-- ===== MENU / DISHES SECTION ===== -->
+      <section class="dishes" id="dishes" aria-labelledby="dishes-title">
+        <div class="section-inner">
+          <div class="section-heading center reveal">
+            <p class="eyebrow">Chef Signatures</p>
+            <h2 id="dishes-title">A Taste of Ubuntu</h2>
+            <p>
+              Celebrate authentic South African braai prepared over open flames using quality ingredients.
+            </p>
+          </div>
+
+          <div class="dish-grid">
+            <article class="dish-card reveal">
+              <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=1000&q=80" alt="Premium grilled steak with herbs and charred garnish" loading="lazy" />
+              <div class="dish-card__content">
+                <span class="dish-card__price">FROM R395</span>
+                <h3>Ubuntu Braai Platter</h3>
+                <p>Flame-grilled favourites, chakalaka, pap, seasonal sides, and house sauces served with generous spirit.</p>
+              </div>
+            </article>
+
+            <article class="dish-card reveal">
+              <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1000&q=80" alt="Elegant plated grilled meat dish with sauce" loading="lazy" />
+              <div class="dish-card__content">
+                <span class="dish-card__price">FROM R285</span>
+                <h3>Coal-Fired Ribeye</h3>
+                <p>Aged beef kissed by open flame, finished with herb butter, smoked salt, and crisp garden leaves.</p>
+              </div>
+            </article>
+
+            <article class="dish-card reveal">
+              <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=1000&q=80" alt="Flame grilled chicken with spices and herbs" loading="lazy" />
+              <div class="dish-card__content">
+                <span class="dish-card__price">FROM R220</span>
+                <h3>Peri Braai Chicken</h3>
+                <p>Marinated overnight, grilled slowly over coals, and served with fire-roasted vegetables.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== ABOUT / OUR STORY ===== -->
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="section-inner about-grid">
+          <div class="about-copy reveal">
+            <p class="eyebrow">Rooted in Ubuntu</p>
+            <h2 id="about-title">Our Story</h2>
+            <p>
+              At Ubuntu Braai &amp; Lounge, we believe great food has the power to bring people together. Inspired by the South African philosophy of Ubuntu — "I am because we are" — we've created a space where exceptional braai, genuine hospitality, and meaningful connections come together.
+            </p>
+            <p>
+              Every guest is welcomed like family, every meal is prepared with care, and every visit is an opportunity to create lasting memories.
+            </p>
+            <a class="button button--ghost" href="#reserve">Plan Your Visit</a>
+          </div>
+
+          <aside class="about-note reveal" aria-label="Ubuntu philosophy">
+            <strong>"I am because we are."</strong>
+            <p>
+              Our hospitality is shaped by the spirit of Ubuntu: generous service, shared tables, bold flavour, and moments worth returning to.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===== GALLERY / THE UBUNTU EXPERIENCE ===== -->
+      <section class="gallery" id="gallery" aria-labelledby="gallery-title">
+        <div class="section-inner">
+          <div class="section-heading reveal">
+            <p class="eyebrow">The Lounge</p>
+            <h2 id="gallery-title">The Ubuntu Experience</h2>
+            <p>
+              Every visit is designed to be more than a meal by combining authentic open-fire braai, refined dining, warm service, and memorable moments.
+            </p>
+          </div>
+
+          <div class="gallery-grid">
+            <figure class="gallery-item reveal">
+              <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=1200&q=80" alt="Elegant restaurant dining room with warm lighting" loading="lazy" />
+            </figure>
+            <figure class="gallery-item reveal">
+              <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=80" alt="Chef preparing food in a premium restaurant kitchen" loading="lazy" />
+            </figure>
+            <figure class="gallery-item reveal">
+              <img src="https://images.unsplash.com/photo-1515669097368-22e68427d265?auto=format&fit=crop&w=900&q=80" alt="Restaurant table setting with wine glasses" loading="lazy" />
+            </figure>
+            <figure class="gallery-item reveal">
+              <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1300&q=80" alt="Chef plating a premium dinner dish" loading="lazy" />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== RESERVATIONS ===== -->
+      <section class="reservation" id="reserve" aria-labelledby="reserve-title">
+        <div class="reservation__content reveal">
+          <p class="eyebrow">Reserve Your Table</p>
+          <h2 id="reserve-title">Reserve Your Table</h2>
+          <p>
+            Book an intimate dinner, a celebratory table, or a relaxed lounge evening shaped by open flames, gold light, and gracious South African hospitality.
+          </p>
+
+          <form class="reservation-form" id="reservationForm" novalidate>
+            <div class="form-row">
+              <label for="resName">Full Name *</label>
+              <input type="text" id="resName" name="name" placeholder="e.g. Thabo Mokoena" required />
+            </div>
+
+            <div class="form-row">
+              <label for="resEmail">Email Address *</label>
+              <input type="email" id="resEmail" name="email" placeholder="you@example.com" required />
+            </div>
+
+            <div class="form-row">
+              <label for="resPhone">Phone Number *</label>
+              <input type="tel" id="resPhone" name="phone" placeholder="+27 82 123 4567" required />
+            </div>
+
+            <div class="form-row">
+              <label for="resDate">Date *</label>
+              <input type="date" id="resDate" name="date" required />
+            </div>
+
+            <div class="form-row">
+              <label for="resTime">Time *</label>
+              <input type="time" id="resTime" name="time" required />
+            </div>
+
+            <div class="form-row">
+              <label for="resGuests">Number of Guests *</label>
+              <select id="resGuests" name="guests" required>
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10+</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="resNotes">Special Requests (optional)</label>
+              <textarea id="resNotes" name="notes" placeholder="Dietary requirements, celebration notes, etc."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="button button--gold">Reserve My Table</button>
+              <a class="button button--ghost" href="tel:+27515552026">Call +27 51 555 2026</a>
+            </div>
+
+            <div class="form-success" id="formSuccess">
+              <p>✨ Thank you! Your reservation request has been received. We'll confirm within 30 minutes.</p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer" id="contact">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <h2>Ubuntu Braai &amp; Lounge</h2>
+          <p>Where Great Food Brings People Together</p>
+        </div>
+
+        <ul class="footer-list" aria-label="Footer navigation">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">Our Story</a></li>
+          <li><a href="#gallery">The Ubuntu Experience</a></li>
+          <li><a href="#dishes">A Taste of Ubuntu</a></li>
+          <li><a href="#reserve">Reservations</a></li>
+          <li><a href="mailto:reservations@ubuntubraai.co.za">Email Us</a></li>
+        </ul>
+
+        <div class="footer-meta">
+          <p>18 Nelson Mandela Drive</p>
+          <p>Bloemfontein, 9301</p>
+          <p><a href="tel:+27515552026">+27 51 555 2026</a></p>
+          <p>Mon-Thu 11:00-21:00</p>
+          <p>Fri-Sat 11:00-22:30</p>
+        </div>
+      </div>
+
+      <div class="footer-credit">
+        <p>Designed &amp; Developed by Kedi Shuping</p>
+        <p>Hosted on Amazon S3 &bull; Powered by AWS</p>
+        <p>&copy; 2026 Ubuntu Braai &amp; Lounge. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const body = document.body;
+      const header = document.querySelector("[data-header]");
+      const menuToggle = document.querySelector(".menu-toggle");
+      const navLinks = document.querySelectorAll(".nav-links a");
+      const revealItems = document.querySelectorAll(".reveal");
+      const reservationForm = document.getElementById("reservationForm");
+      const formSuccess = document.getElementById("formSuccess");
+
+      const syncHeader = () => {
+        header.classList.toggle("is-scrolled", window.scrollY > 24);
+      };
+
+      menuToggle.addEventListener("click", () => {
+        const isOpen = body.classList.toggle("nav-open");
+        menuToggle.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          body.classList.remove("nav-open");
+          menuToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.16 }
+      );
+
+      revealItems.forEach((item) => revealObserver.observe(item));
+
+      reservationForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("resName").value.trim();
+        const email = document.getElementById("resEmail").value.trim();
+        const phone = document.getElementById("resPhone").value.trim();
+        const date = document.getElementById("resDate").value;
+        const time = document.getElementById("resTime").value;
+        const guests = document.getElementById("resGuests").value;
+
+        if (!name || !email || !phone || !date || !time || !guests) {
+          alert("Please fill in all required fields.");
+          return;
+        }
+
+        if (!email.includes("@") || !email.includes(".")) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+
+        formSuccess.classList.add("show");
+        reservationForm.reset();
+
+        setTimeout(() => {
+          formSuccess.classList.remove("show");
+        }, 6000);
+      });
+
+      syncHeader();
+      window.addEventListener("scroll", syncHeader, { passive: true });
+
+      const dateInput = document.getElementById("resDate");
+      if (dateInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const year = tomorrow.getFullYear();
+        const month = String(tomorrow.getMonth() + 1).padStart(2, "0");
+        const day = String(tomorrow.getDate()).padStart(2, "0");
+        dateInput.value = `${year}-${month}-${day}`;
+      }
+    </script>
+  </body>
+</html>
