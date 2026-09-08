@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel · Ubuntu Braai & Lounge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --gold: #d4af37;
+      --gold-soft: #e8d28a;
+      --gold-muted: rgba(212, 175, 55, 0.3);
+      --gold-subtle: rgba(212, 175, 55, 0.08);
+      --coal: #070605;
+      --charcoal: #11100e;
+      --cream: #f8f0df;
+      --cream-warm: #ede6db;
+      --muted: #b8aea3;
+      --muted-soft: #9a9185;
+      --line: rgba(212, 175, 55, 0.08);
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "Inter", Arial, sans-serif;
+      --card-radius: 12px;
+    }
+
+    body {
+      font-family: var(--sans);
+      color: var(--cream);
+      background: radial-gradient(circle at 18% 12%, rgba(184, 74, 40, 0.12), transparent 34rem),
+                  radial-gradient(circle at 82% 8%, rgba(212, 175, 55, 0.06), transparent 28rem),
+                  linear-gradient(180deg, #050403 0%, #120f0c 46%, #080706 100%);
+      min-height: 100vh;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -5%;
+      left: -10%;
+      width: 120%;
+      height: 60%;
+      z-index: 0;
+      pointer-events: none;
+      background-image: url('images/ubuntu-flame-image.jpg');
+      background-size: cover;
+      background-position: center 5%;
+      background-repeat: no-repeat;
+      opacity: 0.15;
+      filter: blur(1.5px) saturate(0.6) brightness(0.9);
+      mask-image: radial-gradient(ellipse at 50% 15%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.05) 50%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 15%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.05) 50%, transparent 70%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 14px 0;
+      background: rgba(5, 4, 3, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--cream);
+      letter-spacing: 1px;
+    }
+    .logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(248, 240, 223, 0.7);
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-links a.active { color: var(--gold); }
+
+    .admin-section {
+      padding: 7rem 1.25rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .admin-header h1 {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 500;
+    }
+    .admin-header h1 span { color: var(--gold); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      background: rgba(7, 6, 5, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: var(--card-radius);
+      padding: 1.5rem;
+      text-align: center;
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card .stat-number {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: var(--gold);
+      display: block;
+    }
+    .stat-card .stat-label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.3rem;
+    }
+    .stat-card .stat-icon {
+      font-size: 1.4rem;
+      color: var(--gold-muted);
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .orders-card {
+      background: rgba(7, 6, 5, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: var(--card-radius);
+      padding: 1.8rem;
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .orders-card h2 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .orders-card h2 i { color: var(--gold); margin-right: 0.6rem; }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    table th {
+      text-align: left;
+      padding: 0.8rem 0.6rem;
+      color: var(--muted-soft);
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table td {
+      padding: 0.8rem 0.6rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      vertical-align: middle;
+    }
+
+    table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .order-status {
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    .status-pending { background: rgba(212, 175, 55, 0.15); color: var(--gold); }
+    .status-preparing { background: rgba(52, 152, 219, 0.15); color: #3498db; }
+    .status-ready { background: rgba(46, 204, 113, 0.15); color: #2ecc71; }
+    .status-completed { background: rgba(46, 204, 113, 0.08); color: #1abc9c; }
+
+    .status-select {
+      background: rgba(7, 6, 5, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--cream);
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-family: var(--sans);
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+    .status-select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .order-actions .btn-sm {
+      padding: 0.25rem 0.7rem;
+      font-size: 0.6rem;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-family: var(--sans);
+    }
+    .btn-view {
+      background: rgba(212, 175, 55, 0.1);
+      color: var(--gold);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+    }
+    .btn-view:hover { background: rgba(212, 175, 55, 0.2); }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--muted);
+    }
+    .empty-state i {
+      font-size: 3rem;
+      color: var(--gold-muted);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .toast {
+      position: fixed;
+      top: 6rem;
+      right: 1.5rem;
+      background: rgba(5, 4, 3, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.9rem 1.8rem;
+      color: var(--cream);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      transform: translateX(120%) scale(0.95);
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+      z-index: 999;
+      max-width: 340px;
+      opacity: 0;
+      font-family: var(--sans);
+    }
+    .toast.show {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+    .toast strong { color: var(--gold); }
+
+    .login-overlay {
+      display: flex;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+    .login-overlay.hidden { display: none; }
+
+    .login-box {
+      background: rgba(7, 6, 5, 0.96);
+      border: 1px solid var(--line);
+      border-radius: var(--card-radius);
+      padding: 2.5rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow);
+      animation: modalFade 0.4s ease;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .login-box h2 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+    }
+    .login-box h2 span { color: var(--gold); }
+    .login-box p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      background: rgba(7, 6, 5, 0.7);
+      color: var(--cream);
+      font-size: 1rem;
+      font-family: var(--sans);
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    .login-box input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .login-box .btn {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: var(--sans);
+      background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+      color: #140f08;
+    }
+    .login-box .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 175, 55, 0.2); }
+
+    .login-error {
+      color: #b84a28;
+      font-size: 0.8rem;
+      margin-top: -0.5rem;
+      margin-bottom: 0.8rem;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      .stat-card .stat-number {
+        font-size: 2rem;
+      }
+      .navbar {
+        flex-wrap: wrap;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+      .admin-header h1 {
+        font-size: 1.6rem;
+      }
+      table {
+        font-size: 0.75rem;
+      }
+      table th, table td {
+        padding: 0.5rem 0.3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+      }
+      .orders-card {
+        padding: 1rem;
+      }
+      .login-box {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <h2>Ubuntu <span>Braai</span></h2>
+      <p>Enter admin password to continue</p>
+      <input type="password" id="adminPassword" placeholder="Enter password..." />
+      <div class="login-error" id="loginError">Incorrect password. Try again.</div>
+      <button class="btn" id="loginBtn">Access Admin</button>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">Ubuntu <span>Braai</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="dashboard.html" id="dashboardNavLink">Dashboard</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="admin.html" class="active">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="admin-section" id="adminContent">
+    <div class="container">
+
+      <div class="admin-header">
+        <h1>Admin Dashboard</h1>
+        <button class="btn-sm" id="logoutAdminBtn" style="background:rgba(184,74,40,0.15);color:#b84a28;border:1px solid rgba(184,74,40,0.2);padding:0.4rem 1.2rem;border-radius:999px;cursor:pointer;font-family:var(--sans);font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.3s ease;">Logout</button>
+      </div>
+
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <span class="stat-icon"><i class="fas fa-receipt"></i></span>
+          <span class="stat-number" id="totalOrders">0</span>
+          <span class="stat-label">Total Orders</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon"><i class="fas fa-calendar-day"></i></span>
+          <span class="stat-number" id="todayOrders">0</span>
+          <span class="stat-label">Today's Orders</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon"><i class="fas fa-clock"></i></span>
+          <span class="stat-number" id="pendingOrders">0</span>
+          <span class="stat-label">Pending Orders</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon"><i class="fas fa-rand"></i></span>
+          <span class="stat-number" id="totalRevenue">R0</span>
+          <span class="stat-label">Total Revenue</span>
+        </div>
+      </div>
+
+      <div class="orders-card">
+        <h2><i class="fas fa-list"></i> All Orders</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody"></tbody>
+          </table>
+        </div>
+        <div id="emptyOrders" class="empty-state" style="display:none;">
+          <i class="fas fa-receipt"></i>
+          <p>No orders placed yet.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="toast" id="toast">
+    <strong></strong> <span id="toastMessage">Order updated</span>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = 'ubuntu2026';
+
+    function updateNavForAuth() {
+      const user = JSON.parse(localStorage.getItem('ubuntu_current_user'));
+      const dashboardLink = document.getElementById('dashboardNavLink');
+      
+      if (dashboardLink) {
+        if (user) {
+          dashboardLink.style.display = 'inline-block';
+          dashboardLink.closest('li').style.display = 'inline-block';
+        } else {
+          dashboardLink.style.display = 'none';
+          dashboardLink.closest('li').style.display = 'none';
+        }
+      }
+    }
+
+    updateNavForAuth();
+
+    let toastTimeout;
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function checkAdminSession() {
+      const session = sessionStorage.getItem('admin_logged_in');
+      if (session === 'true') {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        loadAdminData();
+      } else {
+        document.getElementById('loginOverlay').classList.remove('hidden');
+      }
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', function() {
+      const password = document.getElementById('adminPassword').value.trim();
+      if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem('admin_logged_in', 'true');
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('loginError').style.display = 'none';
+        loadAdminData();
+        updateNavForAuth();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('adminPassword').value = '';
+      }
+    });
+
+    document.getElementById('adminPassword').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        document.getElementById('loginBtn').click();
+      }
+    });
+
+    document.getElementById('logoutAdminBtn').addEventListener('click', function() {
+      sessionStorage.removeItem('admin_logged_in');
+      document.getElementById('loginOverlay').classList.remove('hidden');
+      updateNavForAuth();
+    });
+
+    function loadAdminData() {
+      const orders = getOrders();
+      const users = getUsers();
+
+      const totalOrders = orders.length;
+      const today = new Date().toDateString();
+      const todayOrders = orders.filter(o => new Date(o.timestamp).toDateString() === today);
+      const pendingOrders = orders.filter(o => o.status === 'pending' || !o.status);
+      const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+
+      document.getElementById('totalOrders').textContent = totalOrders;
+      document.getElementById('todayOrders').textContent = todayOrders.length;
+      document.getElementById('pendingOrders').textContent = pendingOrders.length;
+      document.getElementById('totalRevenue').textContent = `R${totalRevenue}`;
+
+      const tbody = document.getElementById('ordersBody');
+      const emptyState = document.getElementById('emptyOrders');
+
+      if (orders.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      let html = '';
+      orders.forEach((order, index) => {
+        const date = new Date(order.timestamp);
+        const formattedDate = date.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' });
+
+        let statusClass = 'status-pending';
+        let statusText = 'Pending';
+        if (order.status === 'preparing') { statusClass = 'status-preparing'; statusText = 'Preparing'; }
+        else if (order.status === 'ready') { statusClass = 'status-ready'; statusText = 'Ready'; }
+        else if (order.status === 'completed') { statusClass = 'status-completed'; statusText = 'Completed'; }
+
+        html += `
+          <tr>
+            <td><strong>${order.orderNumber}</strong></td>
+            <td>${order.name || 'Guest'}</td>
+            <td>${order.phone || '—'}</td>
+            <td>${formattedDate}</td>
+            <td>R${order.total || 0}</td>
+            <td>
+              <select class="status-select" data-index="${index}" onchange="updateOrderStatus(${index}, this.value)">
+                <option value="pending" ${order.status === 'pending' || !order.status ? 'selected' : ''}>Pending</option>
+                <option value="preparing" ${order.status === 'preparing' ? 'selected' : ''}>Preparing</option>
+                <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Ready</option>
+                <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn-sm btn-view" onclick="viewOrder('${order.orderNumber}')">View</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    function getOrders() {
+      try {
+        return JSON.parse(localStorage.getItem('ubuntu_orders')) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function getUsers() {
+      try {
+        return JSON.parse(localStorage.getItem('ubuntu_users')) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function updateOrderStatus(index, newStatus) {
+      const orders = getOrders();
+      if (orders[index]) {
+        orders[index].status = newStatus;
+        localStorage.setItem('ubuntu_orders', JSON.stringify(orders));
+        showToast(`Order ${orders[index].orderNumber} updated to ${newStatus}`);
+        loadAdminData();
+      }
+    }
+
+    function viewOrder(orderNumber) {
+      window.location.href = `order.html?view=${orderNumber}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', checkAdminSession);
+  </script>
+</body>
+</html>

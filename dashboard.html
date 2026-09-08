@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard · Ubuntu Braai & Lounge</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --gold: #d4af37;
+      --gold-soft: #e8d28a;
+      --gold-muted: rgba(212, 175, 55, 0.3);
+      --gold-subtle: rgba(212, 175, 55, 0.08);
+      --coal: #070605;
+      --charcoal: #11100e;
+      --cream: #f8f0df;
+      --cream-warm: #ede6db;
+      --muted: #b8aea3;
+      --muted-soft: #9a9185;
+      --line: rgba(212, 175, 55, 0.08);
+      --shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+      --serif: "Cormorant Garamond", Georgia, serif;
+      --sans: "Inter", Arial, sans-serif;
+      --card-radius: 12px;
+    }
+
+    body {
+      font-family: var(--sans);
+      color: var(--cream);
+      background: radial-gradient(circle at 18% 12%, rgba(184, 74, 40, 0.12), transparent 34rem),
+                  radial-gradient(circle at 82% 8%, rgba(212, 175, 55, 0.06), transparent 28rem),
+                  linear-gradient(180deg, #050403 0%, #120f0c 46%, #080706 100%);
+      min-height: 100vh;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -5%;
+      left: -10%;
+      width: 120%;
+      height: 60%;
+      z-index: 0;
+      pointer-events: none;
+      background-image: url('images/ubuntu-flame-image.jpg');
+      background-size: cover;
+      background-position: center 5%;
+      background-repeat: no-repeat;
+      opacity: 0.2;
+      filter: blur(1.5px) saturate(0.6) brightness(0.9);
+      mask-image: radial-gradient(ellipse at 50% 15%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.05) 50%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 15%, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 35%, rgba(0,0,0,0.05) 50%, transparent 70%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== HEADER ===== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 18px 0;
+      background: rgba(5, 4, 3, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--cream);
+      letter-spacing: 1px;
+    }
+    .logo span { color: var(--gold); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(248, 240, 223, 0.7);
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-links a.active { color: var(--cream); }
+
+    /* ===== DASHBOARD ===== */
+    .dashboard-section {
+      padding: 8rem 1.25rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .dashboard-header h1 {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 500;
+    }
+    .dashboard-header h1 span {
+      color: var(--gold);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .dashboard-card {
+      background: rgba(7, 6, 5, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: var(--card-radius);
+      padding: 1.8rem;
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .dashboard-card h2 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .dashboard-card h2 i {
+      color: var(--gold);
+      margin-right: 0.6rem;
+    }
+
+    .profile-field {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    .profile-field:last-child {
+      border-bottom: none;
+    }
+    .profile-field .label {
+      color: var(--muted-soft);
+      font-size: 0.85rem;
+    }
+    .profile-field .value {
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      border-radius: 999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: var(--sans);
+    }
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+      color: #140f08;
+    }
+    .btn-gold:hover { box-shadow: 0 8px 30px rgba(212, 175, 55, 0.2); }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, 0.08); color: var(--cream); }
+
+    .btn-danger {
+      background: rgba(184, 74, 40, 0.15);
+      color: #b84a28;
+      border: 1px solid rgba(184, 74, 40, 0.2);
+    }
+    .btn-danger:hover { background: rgba(184, 74, 40, 0.25); }
+
+    .btn-sm {
+      padding: 0.4rem 1.2rem;
+      font-size: 0.65rem;
+    }
+
+    /* ===== ORDER HISTORY ===== */
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .order-item:last-child { border-bottom: none; }
+
+    .order-item .order-info {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .order-item .order-number {
+      font-weight: 600;
+      color: var(--gold);
+      font-size: 0.9rem;
+    }
+    .order-item .order-date {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .order-item .order-total {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .order-item .order-status {
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .status-pending { background: rgba(212, 175, 55, 0.15); color: var(--gold); }
+    .status-preparing { background: rgba(52, 152, 219, 0.15); color: #3498db; }
+    .status-ready { background: rgba(46, 204, 113, 0.15); color: #2ecc71; }
+    .status-completed { background: rgba(46, 204, 113, 0.08); color: #1abc9c; }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--muted);
+    }
+    .empty-state i {
+      font-size: 2.5rem;
+      color: var(--gold-muted);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .empty-state p { font-size: 0.95rem; }
+
+    .order-item .order-detail-link {
+      color: var(--gold);
+      font-size: 0.75rem;
+      text-decoration: underline;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    .order-item .order-detail-link:hover { opacity: 1; }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: rgba(7, 6, 5, 0.96);
+      border: 1px solid var(--line);
+      border-radius: var(--card-radius);
+      padding: 2.5rem;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: var(--shadow);
+      animation: modalFade 0.4s ease;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal h3 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: var(--cream);
+    }
+    .modal h3 i { color: var(--gold); margin-right: 0.5rem; }
+
+    .modal .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .modal .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-soft);
+      margin-bottom: 0.3rem;
+    }
+    .modal .form-group input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      background: rgba(7, 6, 5, 0.7);
+      color: var(--cream);
+      font-size: 1rem;
+      font-family: var(--sans);
+      transition: border-color 0.3s ease;
+    }
+    .modal .form-group input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .modal .form-actions {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .modal .form-actions .btn { flex: 1; min-width: 120px; text-align: center; }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      top: 6rem;
+      right: 1.5rem;
+      background: rgba(5, 4, 3, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.9rem 1.8rem;
+      color: var(--cream);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      transform: translateX(120%) scale(0.95);
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+      z-index: 999;
+      max-width: 340px;
+      opacity: 0;
+      font-family: var(--sans);
+    }
+    .toast.show {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+    .toast strong { color: var(--gold); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .navbar {
+        flex-wrap: wrap;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+      .dashboard-header h1 {
+        font-size: 1.6rem;
+      }
+      .modal {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+      .order-item .order-info {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <nav class="navbar">
+      <a href="index.html" class="logo">Ubuntu <span>Braai</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="order.html">Order</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== DASHBOARD ===== -->
+  <section class="dashboard-section">
+    <div class="container">
+
+      <div class="dashboard-header">
+        <h1>Welcome, <span id="userName">Guest</span></h1>
+        <div>
+          <button class="btn btn-ghost btn-sm" onclick="loadDashboard()">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+          <button class="btn btn-gold btn-sm" id="editProfileBtn"><i class="fas fa-edit"></i> Edit Profile</button>
+          <button class="btn btn-danger btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+
+        <!-- ===== PROFILE CARD ===== -->
+        <div class="dashboard-card" id="profileCard">
+          <h2><i class="fas fa-user-circle"></i> My Profile</h2>
+          <div id="profileInfo">
+            <div class="profile-field">
+              <span class="label">Name</span>
+              <span class="value" id="profileName">—</span>
+            </div>
+            <div class="profile-field">
+              <span class="label">Email</span>
+              <span class="value" id="profileEmail">—</span>
+            </div>
+            <div class="profile-field">
+              <span class="label">Phone</span>
+              <span class="value" id="profilePhone">—</span>
+            </div>
+            <div class="profile-field">
+              <span class="label">Member Since</span>
+              <span class="value" id="profileMemberSince">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== ORDER HISTORY CARD ===== -->
+        <div class="dashboard-card" id="ordersCard">
+          <h2><i class="fas fa-receipt"></i> Order History</h2>
+          <div id="orderList">
+            <!-- Dynamically rendered -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EDIT PROFILE MODAL ===== -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <h3><i class="fas fa-user-edit"></i> Edit Profile</h3>
+      <form id="editProfileForm">
+        <div class="form-group">
+          <label for="editName">Full Name</label>
+          <input type="text" id="editName" placeholder="Enter your full name" />
+        </div>
+        <div class="form-group">
+          <label for="editPhone">Phone Number</label>
+          <input type="tel" id="editPhone" placeholder="+27 82 123 4567" />
+        </div>
+        <div class="form-group">
+          <label for="editPassword">New Password (leave blank to keep current)</label>
+          <input type="password" id="editPassword" placeholder="Enter new password" />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-gold">Save Changes</button>
+          <button type="button" class="btn btn-ghost" id="closeModalBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast">
+    <strong></strong> <span id="toastMessage">Profile updated successfully</span>
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ===== TOAST =====
+    let toastTimeout;
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // ===== GET CURRENT USER =====
+    function getCurrentUser() {
+      try {
+        return JSON.parse(localStorage.getItem('ubuntu_current_user'));
+      } catch {
+        return null;
+      }
+    }
+
+    // ===== GET ALL USERS =====
+    function getUsers() {
+      try {
+        return JSON.parse(localStorage.getItem('ubuntu_users')) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    // ===== GET ALL ORDERS =====
+    function getOrders() {
+      try {
+        return JSON.parse(localStorage.getItem('ubuntu_orders')) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    // ===== CHECK AUTH =====
+    function checkAuth() {
+      const user = getCurrentUser();
+      if (!user) {
+        window.location.href = 'index.html';
+        return;
+      }
+      return user;
+    }
+
+    // ===== LOAD DASHBOARD =====
+    function loadDashboard() {
+      const user = checkAuth();
+      if (!user) return;
+
+      // Display user name
+      document.getElementById('userName').textContent = user.name || 'Guest';
+
+      // Profile info
+      document.getElementById('profileName').textContent = user.name || '—';
+      document.getElementById('profileEmail').textContent = user.email || '—';
+      document.getElementById('profilePhone').textContent = user.phone || '—';
+      document.getElementById('profileMemberSince').textContent = user.memberSince || '—';
+
+      // Orders
+      const orders = getOrders();
+      const userOrders = orders.filter(order => order.email === user.email);
+
+      const orderList = document.getElementById('orderList');
+
+      if (userOrders.length === 0) {
+        orderList.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-receipt"></i>
+            <p>You haven't placed any orders yet.</p>
+            <a href="menu.html" class="btn btn-gold btn-sm" style="margin-top:0.8rem;">Start Ordering</a>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      userOrders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      userOrders.forEach(order => {
+        const date = new Date(order.timestamp);
+        const formattedDate = date.toLocaleDateString('en-ZA', { day: '2-digit', month: 'short', year: 'numeric' });
+
+        let statusClass = 'status-pending';
+        let statusText = 'Pending';
+        if (order.status === 'preparing') { statusClass = 'status-preparing'; statusText = 'Preparing'; }
+        else if (order.status === 'ready') { statusClass = 'status-ready'; statusText = 'Ready'; }
+        else if (order.status === 'completed') { statusClass = 'status-completed'; statusText = 'Completed'; }
+
+        html += `
+          <div class="order-item">
+            <div class="order-info">
+              <span class="order-number">${order.orderNumber}</span>
+              <span class="order-date">${formattedDate}</span>
+              <span class="order-total">R${order.total || 0}</span>
+              <span class="order-status ${statusClass}">${statusText}</span>
+            </div>
+            <a href="order.html?view=${order.orderNumber}" class="order-detail-link">View</a>
+          </div>
+        `;
+      });
+
+      orderList.innerHTML = html;
+    }
+
+    // ===== EDIT PROFILE =====
+    document.getElementById('editProfileBtn').addEventListener('click', function() {
+      const user = getCurrentUser();
+      if (!user) return;
+
+      document.getElementById('editName').value = user.name || '';
+      document.getElementById('editPhone').value = user.phone || '';
+      document.getElementById('editPassword').value = '';
+      document.getElementById('editModal').classList.add('active');
+    });
+
+    document.getElementById('closeModalBtn').addEventListener('click', function() {
+      document.getElementById('editModal').classList.remove('active');
+    });
+
+    document.getElementById('editModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('active');
+      }
+    });
+
+    document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const user = getCurrentUser();
+      if (!user) return;
+
+      const newName = document.getElementById('editName').value.trim();
+      const newPhone = document.getElementById('editPhone').value.trim();
+      const newPassword = document.getElementById('editPassword').value.trim();
+
+      if (!newName) {
+        showToast('Please enter your name.');
+        return;
+      }
+
+      // Update user in users list
+      const users = getUsers();
+      const userIndex = users.findIndex(u => u.email === user.email);
+      if (userIndex !== -1) {
+        users[userIndex].name = newName;
+        users[userIndex].phone = newPhone || users[userIndex].phone;
+        if (newPassword) {
+          users[userIndex].password = newPassword;
+        }
+        localStorage.setItem('ubuntu_users', JSON.stringify(users));
+      }
+
+      // Update current session
+      const updatedUser = { ...user, name: newName, phone: newPhone || user.phone };
+      if (newPassword) {
+        updatedUser.password = newPassword;
+      }
+      localStorage.setItem('ubuntu_current_user', JSON.stringify(updatedUser));
+
+      // Update UI
+      document.getElementById('userName').textContent = updatedUser.name;
+      document.getElementById('profileName').textContent = updatedUser.name;
+      document.getElementById('profilePhone').textContent = updatedUser.phone || '—';
+
+      document.getElementById('editModal').classList.remove('active');
+      showToast('Profile updated successfully!');
+    });
+
+    // ===== LOGOUT =====
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.removeItem('ubuntu_current_user');
+      window.location.href = 'index.html';
+    });
+
+    // ============================================================
+    // ===== AUTO-REFRESH: Reload data when page becomes visible =====
+    // ============================================================
+    // Reload when page becomes visible (user returns from another tab)
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        loadDashboard();
+      }
+    });
+
+    // Reload when page is loaded from cache (back button)
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted) {
+        loadDashboard();
+      }
+    });
+
+    // ============================================================
+    // ===== INIT =====
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', loadDashboard);
+  </script>
+</body>
+</html>
